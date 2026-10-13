@@ -149,6 +149,13 @@ const HamburgerButton = styled.button`
   transition: all ${(p) => p.theme.transitions.fast};
 
   &:hover { color: ${(p) => p.theme.colors.text}; background: ${(p) => p.theme.colors.ghostBg}; }
+`;
+
+// Wraps the mobile theme-toggle + hamburger — hidden on desktop (AuthArea handles toggle there)
+const MobileControls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
   @media (min-width: ${(p) => p.theme.breakpoints.md}) { display: none; }
 `;
@@ -318,8 +325,8 @@ export default function Navbar() {
           )}
         </AuthArea>
 
-        {/* Mobile: theme toggle + hamburger */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        {/* Hamburger + theme toggle — mobile only (desktop uses AuthArea) */}
+        <MobileControls>
           <ThemeToggle
             onClick={toggleTheme}
             aria-label="Toggle theme"
@@ -336,7 +343,7 @@ export default function Navbar() {
               )}
             </svg>
           </HamburgerButton>
-        </div>
+        </MobileControls>
       </NavInner>
 
       {/* Mobile menu */}
