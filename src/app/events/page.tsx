@@ -1,7 +1,7 @@
 "use client";
 // src/app/events/page.tsx — styled-components
 
-import { useState, useEffect, useRef, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import styled, { keyframes } from "styled-components";
 import EventCard, { Event } from "@/components/EventCard";
 import FilterBar from "@/components/FilterBar";
@@ -109,16 +109,13 @@ function EventsContent() {
   const [error,      setError]      = useState("");
   const [reminderIds, setReminderIds] = useState<Set<number>>(new Set());
 
-  // Debounced search value — only changes 400ms after the user stops typing
+  // Debounced search value — set by FilterBar after its internal 400ms debounce
   const [debouncedSearch, setDebouncedSearch] = useState("");
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Update debounced search after 400ms of no typing
+  // Called by FilterBar after its 400ms debounce — just update the fetch trigger
   const handleSearchChange = (v: string) => {
-    setSearch(v);        // update input immediately — zero lag, zero jump
-    setPage(1);          // reset to page 1
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => setDebouncedSearch(v), 400);
+    setDebouncedSearch(v);
+    setPage(1);
   };
 
   // Reset page when category or city changes
