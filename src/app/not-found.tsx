@@ -1,42 +1,7 @@
 "use client";
-// src/app/not-found.tsx — 404 page, client component so ThemeProvider context is available
 import Link from "next/link";
-import styled from "styled-components";
 import { PrimaryButton } from "@/styles/shared";
-
-const Wrapper = styled.div`
-  min-height: calc(100dvh - 4rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem 1rem;
-`;
-
-const Code = styled.div`
-  font-size: 6rem;
-  font-weight: 800;
-  background: ${(p) => p.theme.gradients.text};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-  margin-bottom: 1rem;
-`;
-
-const Title = styled.h1`
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: ${(p) => p.theme.colors.text};
-  margin-bottom: 0.75rem;
-`;
-
-const Subtitle = styled.p`
-  color: ${(p) => p.theme.colors.muted};
-  margin-bottom: 2rem;
-  max-width: 28rem;
-`;
+import { Wrapper, Code, Title, Subtitle } from "./not-found.style";
 
 export default function NotFound() {
   return (

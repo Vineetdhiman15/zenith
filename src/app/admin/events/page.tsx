@@ -1,100 +1,21 @@
 "use client";
-// src/app/admin/events/page.tsx
-// Dedicated "Manage Events" page — lists all events with inline status toggle
-// and links to edit. Mirrors the dashboard table but is a standalone route.
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import styled from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import {
   PageWrapper, PageHeader, PageTitle,
-  GlassPanel, PrimaryButton, GhostButton,
+  PrimaryButton, GhostButton,
   ActiveBadge, InactiveBadge, Skeleton,
   AdminTable, AdminTh, AdminTd, AdminTr,
 } from "@/styles/shared";
 import { formatFriendlyDate, formatIndianCurrency } from "@/lib/format";
 import type { Event } from "@/components/EventCard";
-
-// ─── Styled components ────────────────────────────────────────────────────────
-const HeaderRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-`;
-
-const TableTitle = styled.h2`
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: white;
-`;
-
-const TableWrapper = styled(GlassPanel)`
-  overflow: auto;
-`;
-
-const TableInner = styled.div`
-  padding: 1.25rem 1.25rem 0;
-`;
-
-const ToggleBtn = styled.button<{ $active: boolean }>`
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.3rem 0.75rem;
-  border-radius: ${(p) => p.theme.radii.full};
-  border: 1px solid;
-  cursor: pointer;
-  font-family: ${(p) => p.theme.fonts.body};
-  transition: all ${(p) => p.theme.transitions.fast};
-  background: none;
-
-  ${(p) =>
-    p.$active
-      ? `color: #f87171; border-color: rgba(239,68,68,0.4); &:hover { background: rgba(239,68,68,0.1); }`
-      : `color: #4ade80; border-color: rgba(34,197,94,0.4); &:hover { background: rgba(34,197,94,0.1); }`}
-
-  &:disabled { opacity: 0.5; cursor: not-allowed; }
-`;
-
-const EditLink = styled(Link)`
-  font-size: 0.75rem;
-  color: #a78bfa;
-  text-decoration: none;
-  padding: 0.3rem 0.75rem;
-  border-radius: ${(p) => p.theme.radii.md};
-  border: 1px solid rgba(167,139,250,0.3);
-  transition: all ${(p) => p.theme.transitions.fast};
-
-  &:hover { background: rgba(167,139,250,0.1); color: white; }
-`;
-
-const CountBadge = styled.span`
-  font-size: 0.8rem;
-  color: ${(p) => p.theme.colors.muted};
-  font-weight: 400;
-`;
-
-const EmptyRow = styled.tr`
-  td {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: ${(p) => p.theme.colors.muted};
-    font-size: 0.9rem;
-  }
-`;
-
-const TruncatedCell = styled.div`
-  max-width: 14rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-weight: 500;
-  color: white;
-`;
+import {
+  HeaderRow, TableTitle, TableWrapper, TableInner, ToggleBtn, EditLink,
+  CountBadge, EmptyRow, TruncatedCell,
+} from "./style";
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function AdminEventsPage() {

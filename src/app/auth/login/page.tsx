@@ -1,87 +1,15 @@
 "use client";
-// src/app/auth/login/page.tsx — styled-components
 
 import { useState } from "react";
 import Link from "next/link";
-import styled from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import {
-  GlassPanel, PrimaryButton,
   InputField, FormLabel, FormGroup, ErrorBox,
 } from "@/styles/shared";
-
-// ─── Styled components ────────────────────────────────────────────────────────
-const Page = styled.div`
-  min-height: calc(100dvh - 4rem);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3rem 1rem;
-`;
-
-const Card = styled(GlassPanel)`
-  padding: 2rem;
-  width: 100%;
-  max-width: 26rem;
-`;
-
-const IconBox = styled.div`
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: ${(p) => p.theme.radii.lg};
-  background: linear-gradient(135deg, #7c3aed, #d946ef);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1rem;
-  box-shadow: ${(p) => p.theme.shadows.glow};
-  font-size: 1.5rem;
-`;
-
-const Heading = styled.div`
-  text-align: center;
-  margin-bottom: 2rem;
-
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 0.25rem;
-  }
-
-  p {
-    font-size: 0.875rem;
-    color: ${(p) => p.theme.colors.muted};
-  }
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const SubmitBtn = styled(PrimaryButton)`
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 0.5rem;
-`;
-
-const Footer = styled.p`
-  text-align: center;
-  font-size: 0.875rem;
-  color: ${(p) => p.theme.colors.muted};
-  margin-top: 1.5rem;
-
-  a {
-    color: #a78bfa;
-    font-weight: 500;
-    text-decoration: none;
-
-    &:hover { color: #c4b5fd; }
-  }
-`;
+import {
+  Page, Card, IconBox, Heading, Form, SubmitBtn, Footer,
+} from "./style";
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function LoginPage() {

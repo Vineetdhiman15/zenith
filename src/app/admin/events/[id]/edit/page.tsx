@@ -1,72 +1,17 @@
 "use client";
-// src/app/admin/events/[id]/edit/page.tsx — Edit event (styled-components)
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import styled from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import {
-  PageWrapper, GlassPanel, PrimaryButton, GhostButton,
+  PageWrapper, PrimaryButton, GhostButton,
   InputField, SelectField, TextAreaField, FormLabel, FormGroup,
   ErrorBox, SuccessBox, Skeleton,
 } from "@/styles/shared";
-
-// ─── Styled components ────────────────────────────────────────────────────────
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-`;
-
-const FormCard = styled(GlassPanel)`
-  padding: 1.75rem;
-`;
-
-const FormGrid = styled.div`
-  display: grid;
-  gap: 1.25rem;
-
-  @media (min-width: ${(p) => p.theme.breakpoints.md}) { grid-template-columns: repeat(2, 1fr); }
-`;
-
-const FullWidth = styled.div`
-  @media (min-width: ${(p) => p.theme.breakpoints.md}) { grid-column: 1 / -1; }
-`;
-
-const CheckboxRow = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
-  color: ${(p) => p.theme.colors.mutedLight};
-  font-size: 0.875rem;
-  font-weight: 500;
-
-  input[type="checkbox"] {
-    width: 1.125rem;
-    height: 1.125rem;
-    accent-color: ${(p) => p.theme.colors.primary};
-    cursor: pointer;
-  }
-`;
-
-const Footer = styled.div`
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
-`;
+import {
+  Header, Title, FormCard, FormGrid, FullWidth, CheckboxRow, Footer,
+} from "./style";
 
 // ─── Component ────────────────────────────────────────────────────────────────
 const CATEGORIES = ["Music", "Workshop", "Food", "Sports", "Kids"];

@@ -1,8 +1,6 @@
 "use client";
-// src/app/events/page.tsx — styled-components
 
 import { useState, useEffect, Suspense } from "react";
-import styled, { keyframes } from "styled-components";
 import EventCard, { Event } from "@/components/EventCard";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
@@ -12,82 +10,10 @@ import {
   GlassPanel, Skeleton, EventGrid,
   PrimaryButton, CenteredContent,
 } from "@/styles/shared";
-
-// ─── Styled components ────────────────────────────────────────────────────────
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-
-const AnimatedCard = styled.div<{ $delay: number }>`
-  animation: ${fadeInUp} 0.4s ease-out both;
-  animation-delay: ${(p) => p.$delay}s;
-`;
-
-const Subtitle = styled.p`
-  color: ${(p) => p.theme.colors.muted};
-  font-size: 0.9375rem;
-  margin-top: 0.5rem;
-  min-height: 1.4rem; /* reserve space so header never shifts */
-`;
-
-const FilterWrapper = styled(GlassPanel)`
-  padding: 1rem;
-  margin-bottom: 2rem;
-`;
-
-const EmptyIcon = styled.div`
-  font-size: 4rem;
-  margin-bottom: 1rem;
-`;
-
-const EmptyTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: ${(p) => p.theme.colors.text};
-  margin-bottom: 0.5rem;
-`;
-
-const EmptyText = styled.p`
-  color: ${(p) => p.theme.colors.muted};
-  margin-bottom: 1.5rem;
-`;
-
-const SkeletonCard = styled.div`
-  background: ${(p) => p.theme.colors.surface};
-  border: 1px solid ${(p) => p.theme.colors.border};
-  border-radius: ${(p) => p.theme.radii.lg};
-  overflow: hidden;
-`;
-
-const SkeletonBody = styled.div`
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-`;
-
-// Grid wrapper that fades out while loading NEW results (keeps layout stable)
-const GridWrapper = styled.div<{ $loading: boolean }>`
-  opacity: ${(p) => (p.$loading ? 0.45 : 1)};
-  transition: opacity 0.2s ease;
-  pointer-events: ${(p) => (p.$loading ? "none" : "auto")};
-`;
-
-// Tiny spinner shown in the subtitle area while fetching
-const Spinner = styled.span`
-  display: inline-block;
-  width: 0.75rem;
-  height: 0.75rem;
-  border: 2px solid ${(p) => p.theme.colors.primary};
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-  margin-left: 0.5rem;
-  vertical-align: middle;
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-`;
+import {
+  AnimatedCard, Subtitle, FilterWrapper, EmptyIcon, EmptyTitle, EmptyText,
+  SkeletonCard, SkeletonBody, GridWrapper, Spinner,
+} from "./style";
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 const PAGE_SIZE = 9;
