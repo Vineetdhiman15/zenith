@@ -87,6 +87,12 @@ function EventsContent() {
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Local search value — updates instantly for a snappy input feel
+  const [searchInput, setSearchInput] = useState(search);
+
+  // Keep local state in sync when search param changes externally (e.g. clear filters)
+  useEffect(() => { setSearchInput(search); }, [search]);
+
   const updateParams = useCallback(
     (updates: Record<string, string>) => {
       const current = new URLSearchParams(searchParams.toString());
@@ -94,13 +100,15 @@ function EventsContent() {
         if (v) current.set(k, v); else current.delete(k);
       });
       if (!("page" in updates)) current.set("page", "1");
-      router.push(`/events?${current.toString()}`);
+      // replace() keeps the URL clean; scroll:false stops Next.js jumping to the top
+      router.replace(`/events?${current.toString()}`, { scroll: false });
     },
     [searchParams, router]
   );
 
   const handleSearchChange = useCallback(
     (v: string) => {
+      setSearchInput(v); // update input immediately — no jump
       if (debounceRef.current) clearTimeout(debounceRef.current);
       debounceRef.current = setTimeout(() => updateParams({ search: v }), 400);
     },
@@ -146,7 +154,7 @@ function EventsContent() {
       <PageWrapper style={{ paddingTop: 0 }}>
         <FilterWrapper>
           <FilterBar
-            category={category} city={city} search={search}
+            category={category} city={city} search={searchInput}
             onCategoryChange={(v) => updateParams({ category: v })}
             onCityChange={(v)     => updateParams({ city: v })}
             onSearchChange={handleSearchChange}
