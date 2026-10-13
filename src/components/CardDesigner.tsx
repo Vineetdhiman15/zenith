@@ -2,17 +2,17 @@
 // src/components/CardDesigner.tsx — fully styled-components
 
 import { useState, useEffect, useCallback } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes, useTheme } from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import { formatFriendlyDate, formatIndianCurrency } from "@/lib/format";
-import { theme } from "@/styles/theme";
 import type { Event } from "./EventCard";
 
-// ─── Theme / sticker data ─────────────────────────────────────────────────────
-const THEMES = [
-  { key: "aurora",  label: "Aurora",  gradient: theme.gradients.aurora  },
-  { key: "sunset",  label: "Sunset",  gradient: theme.gradients.sunset  },
-  { key: "ocean",   label: "Ocean",   gradient: theme.gradients.ocean   },
+// ─── Sticker / static data ────────────────────────────────────────────────────
+// THEMES are resolved at render time from the active theme via useTheme()
+const THEME_KEYS = [
+  { key: "aurora", label: "Aurora" },
+  { key: "sunset", label: "Sunset" },
+  { key: "ocean",  label: "Ocean"  },
 ];
 
 const STICKERS = [
@@ -60,14 +60,14 @@ const SectionTitle = styled.h2`
 /* Live card preview */
 const CardPreview = styled.div<{ $gradient: string }>`
   position: relative;
-  border-radius: ${theme.radii.xl};
+  border-radius: ${(p) => p.theme.radii.xl};
   background: ${(p) => p.$gradient};
   border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 1.5rem;
   min-height: 11rem;
   overflow: hidden;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
-  transition: background ${theme.transitions.slow};
+  transition: background ${(p) => p.theme.transitions.slow};
 `;
 
 const GlowOrb = styled.div`
@@ -139,7 +139,7 @@ const StatusRow = styled.div`
 
 const SavingText = styled.span`
   font-size: 0.75rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   animation: ${pulse} 1.2s ease-in-out infinite;
 `;
 
@@ -158,7 +158,7 @@ const HintText = styled.span`
 const SubLabel = styled.p`
   font-size: 0.875rem;
   font-weight: 500;
-  color: ${theme.colors.mutedLight};
+  color: ${(p) => p.theme.colors.mutedLight};
   margin-bottom: 0.75rem;
 `;
 
@@ -171,21 +171,21 @@ const ThemeGrid = styled.div`
 const ThemeBtn = styled.button<{ $gradient: string; $active: boolean }>`
   flex: 1;
   height: 4rem;
-  border-radius: ${theme.radii.lg};
+  border-radius: ${(p) => p.theme.radii.lg};
   background: ${(p) => p.$gradient};
   display: flex;
   align-items: flex-end;
   padding: 0.5rem 0.625rem;
   border: 2px solid ${(p) => (p.$active ? "rgba(255,255,255,0.9)" : "transparent")};
   cursor: pointer;
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
   opacity: ${(p) => (p.$active ? 1 : 0.55)};
   transform: ${(p) => (p.$active ? "scale(1.05)" : "scale(1)")};
 
   ${(p) =>
     p.$active &&
     css`
-      box-shadow: ${theme.shadows.glow};
+      box-shadow: ${(p) => p.theme.shadows.glow};
     `}
 
   &:hover:not([aria-pressed="true"]) {
@@ -210,20 +210,20 @@ const StickerGrid = styled.div`
 const StickerBtn = styled.button<{ $selected: boolean; $maxed: boolean }>`
   width: 3.5rem;
   height: 3.5rem;
-  border-radius: ${theme.radii.lg};
+  border-radius: ${(p) => p.theme.radii.lg};
   font-size: 1.5rem;
   border: 2px solid;
   cursor: ${(p) => (p.$maxed ? "not-allowed" : "pointer")};
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
   background: none;
 
   ${(p) =>
     p.$selected
       ? css`
-          border-color: ${theme.colors.primary};
+          border-color: ${(p) => p.theme.colors.primary};
           background: rgba(124, 58, 237, 0.2);
           transform: scale(1.12);
-          box-shadow: ${theme.shadows.glow};
+          box-shadow: ${(p) => p.theme.shadows.glow};
         `
       : p.$maxed
       ? css`
@@ -240,14 +240,14 @@ const StickerBtn = styled.button<{ $selected: boolean; $maxed: boolean }>`
 const ClearBtn = styled.button`
   margin-top: 0.375rem;
   font-size: 0.75rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: color ${theme.transitions.fast};
+  transition: color ${(p) => p.theme.transitions.fast};
 
-  &:hover { color: ${theme.colors.mutedLight}; }
+  &:hover { color: ${(p) => p.theme.colors.mutedLight}; }
 `;
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -256,6 +256,11 @@ interface CardDesignerProps {
 }
 
 export default function CardDesigner({ event }: CardDesignerProps) {
+  const scTheme = useTheme(); // resolves current light/dark theme
+  const THEMES = THEME_KEYS.map((t) => ({
+    ...t,
+    gradient: scTheme.gradients[t.key as keyof typeof scTheme.gradients],
+  }));
   const { user, token } = useAuth();
   const [currentTheme, setCurrentTheme] = useState("aurora");
   const [stickers, setStickers] = useState<string[]>([]);
@@ -370,7 +375,7 @@ export default function CardDesigner({ event }: CardDesignerProps) {
       <div>
         <SubLabel>
           Stickers{" "}
-          <span style={{ color: theme.colors.muted, fontWeight: 400 }}>
+          <span style={{ color: "#64748b", fontWeight: 400 }}>
             ({stickers.length}/{MAX_STICKERS})
           </span>
         </SubLabel>

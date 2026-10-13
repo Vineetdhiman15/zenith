@@ -6,7 +6,6 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { theme } from "@/styles/theme";
 import {
   PageWrapper, PageHeader, PageTitle,
   GlassPanel, PrimaryButton,
@@ -23,7 +22,7 @@ const StatsGrid = styled.div`
   gap: 1rem;
   margin-bottom: 2rem;
 
-  @media (min-width: ${theme.breakpoints.md}) { grid-template-columns: repeat(4, 1fr); }
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) { grid-template-columns: repeat(4, 1fr); }
 `;
 
 const StatCard = styled(GlassPanel)`
@@ -34,7 +33,7 @@ const StatCard = styled(GlassPanel)`
 const StatValue = styled.div`
   font-size: 2rem;
   font-weight: 800;
-  background: ${theme.gradients.text};
+  background: ${(p) => p.theme.gradients.text};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -42,7 +41,7 @@ const StatValue = styled.div`
 
 const StatLabel = styled.div`
   font-size: 0.75rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   margin-top: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -72,11 +71,11 @@ const ToggleBtn = styled.button<{ $active: boolean }>`
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.375rem 0.875rem;
-  border-radius: ${theme.radii.full};
+  border-radius: ${(p) => p.theme.radii.full};
   border: 1px solid;
   cursor: pointer;
-  font-family: ${theme.fonts.body};
-  transition: all ${theme.transitions.fast};
+  font-family: ${(p) => p.theme.fonts.body};
+  transition: all ${(p) => p.theme.transitions.fast};
 
   ${(p) =>
     p.$active

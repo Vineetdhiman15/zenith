@@ -6,7 +6,6 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { theme } from "@/styles/theme";
 import {
   GlassPanel, PrimaryButton,
   InputField, FormLabel, FormGroup, ErrorBox,
@@ -30,13 +29,13 @@ const Card = styled(GlassPanel)`
 const IconBox = styled.div`
   width: 3.5rem;
   height: 3.5rem;
-  border-radius: ${theme.radii.lg};
+  border-radius: ${(p) => p.theme.radii.lg};
   background: linear-gradient(135deg, #7c3aed, #d946ef);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 1rem;
-  box-shadow: ${theme.shadows.glow};
+  box-shadow: ${(p) => p.theme.shadows.glow};
   font-size: 1.5rem;
 `;
 
@@ -53,7 +52,7 @@ const Heading = styled.div`
 
   p {
     font-size: 0.875rem;
-    color: ${theme.colors.muted};
+    color: ${(p) => p.theme.colors.muted};
   }
 `;
 
@@ -72,7 +71,7 @@ const SubmitBtn = styled(PrimaryButton)`
 const Footer = styled.p`
   text-align: center;
   font-size: 0.875rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   margin-top: 1.5rem;
 
   a {

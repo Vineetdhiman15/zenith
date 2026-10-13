@@ -1,8 +1,7 @@
 "use client";
-// src/components/FilterBar.tsx — fully styled-components
+// src/components/FilterBar.tsx — fully theme-aware styled-components
 
 import styled from "styled-components";
-import { theme } from "@/styles/theme";
 import { InputField, SelectField } from "@/styles/shared";
 
 interface FilterBarProps {
@@ -23,7 +22,7 @@ const Bar = styled.div`
   flex-direction: column;
   gap: 0.75rem;
 
-  @media (min-width: ${theme.breakpoints.sm}) {
+  @media (min-width: ${(p) => p.theme.breakpoints.sm}) {
     flex-direction: row;
   }
 `;
@@ -37,7 +36,7 @@ const SearchWrapper = styled.div`
     left: 0.75rem;
     top: 50%;
     transform: translateY(-50%);
-    color: ${theme.colors.muted};
+    color: ${(p) => p.theme.colors.muted};
     pointer-events: none;
     width: 1rem;
     height: 1rem;
@@ -49,7 +48,7 @@ const SearchInput = styled(InputField)`
 `;
 
 const StyledSelect = styled(SelectField)`
-  @media (min-width: ${theme.breakpoints.sm}) { width: 11rem; }
+  @media (min-width: ${(p) => p.theme.breakpoints.sm}) { width: 11rem; }
 `;
 
 // ─── Component ────────────────────────────────────────────────────────────────

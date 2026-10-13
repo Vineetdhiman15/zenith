@@ -9,7 +9,6 @@ import type { Event } from "@/components/EventCard";
 import { formatFriendlyDate, formatIndianCurrency } from "@/lib/format";
 import CardDesigner from "@/components/CardDesigner";
 import { useAuth } from "@/context/AuthContext";
-import { theme } from "@/styles/theme";
 import {
   PageWrapper, GlassPanel, Skeleton,
   PrimaryButton, GhostButton, Toast, CenteredContent,
@@ -21,10 +20,10 @@ const BackLink = styled(Link)`
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   text-decoration: none;
   margin-bottom: 1.5rem;
-  transition: color ${theme.transitions.fast};
+  transition: color ${(p) => p.theme.transitions.fast};
 
   &:hover { color: white; }
 `;
@@ -32,11 +31,11 @@ const BackLink = styled(Link)`
 const HeroImage = styled.div`
   position: relative;
   height: 18rem;
-  border-radius: ${theme.radii.xl};
+  border-radius: ${(p) => p.theme.radii.xl};
   overflow: hidden;
   margin-bottom: 2rem;
 
-  @media (min-width: ${theme.breakpoints.sm}) { height: 24rem; }
+  @media (min-width: ${(p) => p.theme.breakpoints.sm}) { height: 24rem; }
 `;
 
 const HeroImg = styled.img`
@@ -58,7 +57,7 @@ const HeroCategoryBadge = styled.span`
   font-size: 0.8125rem;
   font-weight: 600;
   padding: 0.375rem 0.875rem;
-  border-radius: ${theme.radii.full};
+  border-radius: ${(p) => p.theme.radii.full};
   background: rgba(124,58,237,0.7);
   color: white;
   backdrop-filter: blur(8px);
@@ -68,7 +67,7 @@ const Grid = styled.div`
   display: grid;
   gap: 2rem;
 
-  @media (min-width: ${theme.breakpoints.md}) { grid-template-columns: 2fr 1fr; }
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) { grid-template-columns: 2fr 1fr; }
 `;
 
 const Title = styled.h1`
@@ -83,7 +82,7 @@ const MetaRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   font-size: 0.875rem;
 `;
 
@@ -103,12 +102,12 @@ const AboutLabel = styled.h2`
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.075em;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   margin-bottom: 0.75rem;
 `;
 
 const AboutText = styled.p`
-  color: ${theme.colors.mutedLight};
+  color: ${(p) => p.theme.colors.mutedLight};
   line-height: 1.75;
   font-size: 0.9375rem;
 `;
@@ -126,14 +125,14 @@ const PricePanel = styled(GlassPanel)`
 
 const PriceLabel = styled.p`
   font-size: 0.8125rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   margin-bottom: 0.25rem;
 `;
 
 const PriceValue = styled.p`
   font-size: 2rem;
   font-weight: 800;
-  background: ${theme.gradients.text};
+  background: ${(p) => p.theme.gradients.text};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -142,18 +141,18 @@ const PriceValue = styled.p`
 const ReminderBtn = styled.button<{ $active: boolean }>`
   width: 100%;
   padding: 0.875rem;
-  border-radius: ${theme.radii.lg};
+  border-radius: ${(p) => p.theme.radii.lg};
   font-size: 0.9375rem;
   font-weight: 600;
-  font-family: ${theme.fonts.body};
+  font-family: ${(p) => p.theme.fonts.body};
   border: none;
   cursor: pointer;
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
 
   ${(p) =>
     p.$active
-      ? `background: ${theme.colors.primary}; color: white; box-shadow: ${theme.shadows.glow};`
-      : `background: rgba(255,255,255,0.05); color: ${theme.colors.mutedLight}; border: 1px solid ${theme.colors.border};`}
+      ? `background: ${p.theme.colors.primary}; color: white; box-shadow: ${p.theme.shadows.glow};`
+      : `background: ${p.theme.colors.ghostBg}; color: ${p.theme.colors.mutedLight}; border: 1px solid ${p.theme.colors.border};`}
 
   &:hover:not(:disabled) {
     transform: translateY(-1px);
@@ -236,7 +235,7 @@ export default function EventDetailPage() {
     return (
       <PageWrapper style={{ maxWidth: "56rem" }}>
         <Skeleton $height="1.5rem" $width="8rem" style={{ marginBottom: "1.5rem" }} />
-        <Skeleton $height="24rem" style={{ borderRadius: theme.radii.xl, marginBottom: "2rem" }} />
+        <Skeleton $height="24rem" style={{ borderRadius: "1.25rem", marginBottom: "2rem" }} />
         <Skeleton $height="2rem"  $width="60%" style={{ marginBottom: "1rem" }} />
         <Skeleton $height="1rem"  $width="40%" style={{ marginBottom: "0.5rem" }} />
         <Skeleton $height="1rem" />
@@ -249,7 +248,7 @@ export default function EventDetailPage() {
       <PageWrapper style={{ maxWidth: "56rem" }}>
         <CenteredContent>
           <EmptyIcon>😕</EmptyIcon>
-          <p style={{ color: theme.colors.muted }}>{error || "Event not found"}</p>
+          <p style={{ color: "#64748b" }}>{error || "Event not found"}</p>
         </CenteredContent>
       </PageWrapper>
     );

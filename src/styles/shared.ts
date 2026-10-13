@@ -1,8 +1,7 @@
 // src/styles/shared.ts
-// Re-usable styled primitives shared across pages and components.
+// Re-usable styled primitives — ALL read colours from ThemeProvider context.
 
 import styled, { css, keyframes } from "styled-components";
-import { theme } from "./theme";
 
 // ─── Keyframes ───────────────────────────────────────────────────────────────
 export const fadeInUp = keyframes`
@@ -45,7 +44,7 @@ export const PageTitle = styled.h1`
   font-size: clamp(1.75rem, 4vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  background: ${theme.gradients.text};
+  background: ${(p) => p.theme.gradients.text};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -53,10 +52,12 @@ export const PageTitle = styled.h1`
 
 // ─── Glass panel ─────────────────────────────────────────────────────────────
 export const GlassPanel = styled.div`
-  background: rgba(17, 17, 34, 0.7);
+  background: ${(p) => p.theme.colors.surface};
   backdrop-filter: blur(12px);
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radii.lg};
+  border: 1px solid ${(p) => p.theme.colors.border};
+  border-radius: ${(p) => p.theme.radii.lg};
+  box-shadow: ${(p) => p.theme.shadows.surface};
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 `;
 
 // ─── Buttons ─────────────────────────────────────────────────────────────────
@@ -65,11 +66,11 @@ const baseButton = css`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: ${theme.radii.md};
-  font-family: ${theme.fonts.body};
+  border-radius: ${(p) => p.theme.radii.md};
+  font-family: ${(p) => p.theme.fonts.body};
   font-weight: 600;
   font-size: 0.875rem;
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
   cursor: pointer;
   border: none;
 
@@ -83,13 +84,13 @@ const baseButton = css`
 export const PrimaryButton = styled.button`
   ${baseButton}
   padding: 0.625rem 1.25rem;
-  background: ${theme.gradients.primary};
+  background: ${(p) => p.theme.gradients.primary};
   color: white;
 
   &:hover:not(:disabled) {
     opacity: 0.9;
     transform: translateY(-1px);
-    box-shadow: ${theme.shadows.btn};
+    box-shadow: ${(p) => p.theme.shadows.btn};
   }
   &:active:not(:disabled) { transform: translateY(0); }
 `;
@@ -97,84 +98,84 @@ export const PrimaryButton = styled.button`
 export const GhostButton = styled.button`
   ${baseButton}
   padding: 0.625rem 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: ${theme.colors.mutedLight};
-  border: 1px solid ${theme.colors.border};
+  background: ${(p) => p.theme.colors.ghostBg};
+  color: ${(p) => p.theme.colors.mutedLight};
+  border: 1px solid ${(p) => p.theme.colors.border};
 
   &:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.10);
-    color: white;
+    background: ${(p) => p.theme.colors.ghostHoverBg};
+    color: ${(p) => p.theme.colors.text};
   }
 `;
 
 export const IconButton = styled.button`
   ${baseButton}
   padding: 0.5rem 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: ${theme.colors.mutedLight};
-  border: 1px solid ${theme.colors.border};
+  background: ${(p) => p.theme.colors.ghostBg};
+  color: ${(p) => p.theme.colors.mutedLight};
+  border: 1px solid ${(p) => p.theme.colors.border};
   font-size: 0.75rem;
 
   &:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.10);
-    color: white;
+    background: ${(p) => p.theme.colors.ghostHoverBg};
+    color: ${(p) => p.theme.colors.text};
   }
 `;
 
 // ─── Form inputs ─────────────────────────────────────────────────────────────
 export const InputField = styled.input`
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: ${theme.radii.md};
+  background: ${(p) => p.theme.colors.inputBg};
+  border: 1px solid ${(p) => p.theme.colors.inputBorder};
+  border-radius: ${(p) => p.theme.radii.md};
   padding: 0.625rem 0.875rem;
-  color: white;
+  color: ${(p) => p.theme.colors.text};
   font-size: 0.875rem;
-  transition: border-color ${theme.transitions.fast}, box-shadow ${theme.transitions.fast};
+  transition: border-color ${(p) => p.theme.transitions.fast}, box-shadow ${(p) => p.theme.transitions.fast};
 
-  &::placeholder { color: #475569; }
+  &::placeholder { color: ${(p) => p.theme.colors.muted}; }
 
   &:focus {
-    border-color: ${theme.colors.primary};
+    border-color: ${(p) => p.theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
   }
 `;
 
 export const SelectField = styled.select`
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: ${theme.radii.md};
+  background: ${(p) => p.theme.colors.inputBg};
+  border: 1px solid ${(p) => p.theme.colors.inputBorder};
+  border-radius: ${(p) => p.theme.radii.md};
   padding: 0.625rem 0.875rem;
-  color: white;
+  color: ${(p) => p.theme.colors.text};
   font-size: 0.875rem;
-  transition: border-color ${theme.transitions.fast}, box-shadow ${theme.transitions.fast};
+  transition: border-color ${(p) => p.theme.transitions.fast}, box-shadow ${(p) => p.theme.transitions.fast};
   cursor: pointer;
 
   &:focus {
-    border-color: ${theme.colors.primary};
+    border-color: ${(p) => p.theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
     outline: none;
   }
 
-  option { background: #1e1e2e; color: white; }
+  option { background: ${(p) => p.theme.colors.surface}; color: ${(p) => p.theme.colors.text}; }
 `;
 
 export const TextAreaField = styled.textarea`
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: ${theme.radii.md};
+  background: ${(p) => p.theme.colors.inputBg};
+  border: 1px solid ${(p) => p.theme.colors.inputBorder};
+  border-radius: ${(p) => p.theme.radii.md};
   padding: 0.625rem 0.875rem;
-  color: white;
+  color: ${(p) => p.theme.colors.text};
   font-size: 0.875rem;
   resize: vertical;
   min-height: 120px;
-  transition: border-color ${theme.transitions.fast}, box-shadow ${theme.transitions.fast};
+  transition: border-color ${(p) => p.theme.transitions.fast}, box-shadow ${(p) => p.theme.transitions.fast};
 
-  &::placeholder { color: #475569; }
+  &::placeholder { color: ${(p) => p.theme.colors.muted}; }
 
   &:focus {
-    border-color: ${theme.colors.primary};
+    border-color: ${(p) => p.theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
   }
 `;
@@ -183,7 +184,7 @@ export const FormLabel = styled.label`
   display: block;
   font-size: 0.875rem;
   font-weight: 500;
-  color: ${theme.colors.mutedLight};
+  color: ${(p) => p.theme.colors.mutedLight};
   margin-bottom: 0.375rem;
 `;
 
@@ -195,20 +196,20 @@ export const FormGroup = styled.div`
 
 // ─── Badges ──────────────────────────────────────────────────────────────────
 export const ActiveBadge = styled.span`
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: ${theme.radii.full};
+  background: ${(p) => p.theme.colors.badgeActiveBg};
+  color:      ${(p) => p.theme.colors.badgeActiveColor};
+  border: 1px solid ${(p) => p.theme.colors.badgeActiveBorder};
+  border-radius: ${(p) => p.theme.radii.full};
   padding: 0.125rem 0.625rem;
   font-size: 0.75rem;
   font-weight: 600;
 `;
 
 export const InactiveBadge = styled.span`
-  background: rgba(239, 68, 68, 0.15);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: ${theme.radii.full};
+  background: ${(p) => p.theme.colors.badgeInactiveBg};
+  color:      ${(p) => p.theme.colors.badgeInactiveColor};
+  border: 1px solid ${(p) => p.theme.colors.badgeInactiveBorder};
+  border-radius: ${(p) => p.theme.radii.full};
   padding: 0.125rem 0.625rem;
   font-size: 0.75rem;
   font-weight: 600;
@@ -218,34 +219,34 @@ export const InactiveBadge = styled.span`
 export const Skeleton = styled.div<{ $height?: string; $width?: string }>`
   height: ${(p) => p.$height ?? "1rem"};
   width:  ${(p) => p.$width  ?? "100%"};
-  border-radius: ${theme.radii.sm};
+  border-radius: ${(p) => p.theme.radii.sm};
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,0.04) 25%,
-    rgba(255,255,255,0.08) 50%,
-    rgba(255,255,255,0.04) 75%
+    ${(p) => p.theme.colors.skeleton1} 25%,
+    ${(p) => p.theme.colors.skeleton2} 50%,
+    ${(p) => p.theme.colors.skeleton1} 75%
   );
   background-size: 200% 100%;
   animation: ${shimmer} 1.5s infinite;
 `;
 
-// ─── Alert / Error box ───────────────────────────────────────────────────────
+// ─── Alert boxes ─────────────────────────────────────────────────────────────
 export const ErrorBox = styled.div`
-  background: rgba(239, 68, 68, 0.10);
-  border: 1px solid rgba(239, 68, 68, 0.30);
-  color: #f87171;
+  background: ${(p) => p.theme.colors.badgeInactiveBg};
+  border: 1px solid ${(p) => p.theme.colors.badgeInactiveBorder};
+  color: ${(p) => p.theme.colors.danger};
   font-size: 0.875rem;
   padding: 0.75rem 1rem;
-  border-radius: ${theme.radii.md};
+  border-radius: ${(p) => p.theme.radii.md};
 `;
 
 export const SuccessBox = styled.div`
-  background: rgba(34, 197, 94, 0.10);
-  border: 1px solid rgba(34, 197, 94, 0.30);
-  color: #4ade80;
+  background: ${(p) => p.theme.colors.badgeActiveBg};
+  border: 1px solid ${(p) => p.theme.colors.badgeActiveBorder};
+  color: ${(p) => p.theme.colors.success};
   font-size: 0.875rem;
   padding: 0.75rem 1rem;
-  border-radius: ${theme.radii.md};
+  border-radius: ${(p) => p.theme.radii.md};
 `;
 
 // ─── Toast ───────────────────────────────────────────────────────────────────
@@ -254,13 +255,13 @@ export const Toast = styled.div`
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  background: #1e1e2e;
-  border: 1px solid rgba(124, 58, 237, 0.4);
-  border-radius: ${theme.radii.full};
+  background: ${(p) => p.theme.colors.surface};
+  border: 1px solid ${(p) => p.theme.colors.primary};
+  border-radius: ${(p) => p.theme.radii.full};
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;
-  color: white;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  color: ${(p) => p.theme.colors.text};
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   z-index: 100;
   white-space: nowrap;
   animation: ${fadeInUp} 0.3s ease-out;
@@ -278,24 +279,10 @@ export const EventGrid = styled.div`
 
 // ─── Gradient text ───────────────────────────────────────────────────────────
 export const GradientText = styled.span`
-  background: ${theme.gradients.text};
+  background: ${(p) => p.theme.gradients.text};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-`;
-
-// ─── Section heading ─────────────────────────────────────────────────────────
-export const SectionHeading = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: white;
-`;
-
-// ─── Divider ─────────────────────────────────────────────────────────────────
-export const Divider = styled.hr`
-  border: none;
-  border-top: 1px solid ${theme.colors.border};
-  margin: 1.25rem 0;
 `;
 
 // ─── Centered container ──────────────────────────────────────────────────────
@@ -321,20 +308,20 @@ export const AdminTh = styled.th`
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: ${theme.colors.muted};
-  border-bottom: 1px solid ${theme.colors.border};
+  color: ${(p) => p.theme.colors.muted};
+  border-bottom: 1px solid ${(p) => p.theme.colors.border};
 `;
 
 export const AdminTd = styled.td`
   padding: 0.875rem 1rem;
   font-size: 0.875rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid ${(p) => p.theme.colors.border};
   vertical-align: middle;
-  color: ${theme.colors.text};
+  color: ${(p) => p.theme.colors.text};
 `;
 
 export const AdminTr = styled.tr`
   &:hover td {
-    background: rgba(255, 255, 255, 0.02);
+    background: ${(p) => p.theme.colors.primaryFaded};
   }
 `;

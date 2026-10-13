@@ -1,7 +1,7 @@
+"use client";
 // src/app/page.tsx — Home / Landing page with styled-components
 import Link from "next/link";
 import styled, { keyframes } from "styled-components";
-import { theme } from "@/styles/theme";
 import { PrimaryButton, GhostButton } from "@/styles/shared";
 
 // ─── Keyframes ────────────────────────────────────────────────────────────────
@@ -78,7 +78,7 @@ const HeroTitle = styled.h1`
   font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.1;
-  background: ${theme.gradients.text};
+  background: ${(p) => p.theme.gradients.text};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -87,7 +87,7 @@ const HeroTitle = styled.h1`
 
 const HeroSubtitle = styled.p`
   font-size: 1.125rem;
-  color: ${theme.colors.mutedLight};
+  color: ${(p) => p.theme.colors.mutedLight};
   max-width: 36rem;
   margin: 0 auto 2rem;
   line-height: 1.7;
@@ -99,7 +99,7 @@ const HeroButtons = styled.div`
   gap: 1rem;
   align-items: center;
 
-  @media (min-width: ${theme.breakpoints.sm}) {
+  @media (min-width: ${(p) => p.theme.breakpoints.sm}) {
     flex-direction: row;
     justify-content: center;
   }
@@ -124,15 +124,15 @@ const CatGrid = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 
-  @media (min-width: ${theme.breakpoints.sm}) { grid-template-columns: repeat(3, 1fr); }
-  @media (min-width: ${theme.breakpoints.lg}) { grid-template-columns: repeat(5, 1fr); }
+  @media (min-width: ${(p) => p.theme.breakpoints.sm}) { grid-template-columns: repeat(3, 1fr); }
+  @media (min-width: ${(p) => p.theme.breakpoints.lg}) { grid-template-columns: repeat(5, 1fr); }
 `;
 
 const CatCard = styled(Link)`
   background: rgba(17, 17, 34, 0.7);
   backdrop-filter: blur(12px);
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radii.lg};
+  border: 1px solid ${(p) => p.theme.colors.border};
+  border-radius: ${(p) => p.theme.radii.lg};
   padding: 1.5rem 1rem;
   text-align: center;
   text-decoration: none;
@@ -140,7 +140,7 @@ const CatCard = styled(Link)`
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
 
   &:hover {
     border-color: rgba(124, 58, 237, 0.4);
@@ -151,7 +151,7 @@ const CatCard = styled(Link)`
 
 const CatIcon = styled.div`
   font-size: 2.5rem;
-  transition: transform ${theme.transitions.normal};
+  transition: transform ${(p) => p.theme.transitions.normal};
 
   ${CatCard}:hover & { transform: scale(1.15); }
 `;
@@ -164,7 +164,7 @@ const CatTitle = styled.h3`
 
 const CatDesc = styled.p`
   font-size: 0.75rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   line-height: 1.5;
 `;
 

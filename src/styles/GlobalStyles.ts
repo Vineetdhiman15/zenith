@@ -1,8 +1,7 @@
 // src/styles/GlobalStyles.ts
-// Global CSS reset and base styles using styled-components createGlobalStyle.
+// Global styles using createGlobalStyle — theme is injected automatically via ThemeProvider.
 
 import { createGlobalStyle } from "styled-components";
-import { theme } from "./theme";
 
 const GlobalStyles = createGlobalStyle`
   @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
@@ -18,20 +17,22 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: ${theme.fonts.body};
-    background-color: ${theme.colors.bg};
-    color: ${theme.colors.text};
+    font-family: ${(p) => p.theme.fonts.body};
+    background-color: ${(p) => p.theme.colors.bg};
+    color: ${(p) => p.theme.colors.text};
     min-height: 100dvh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
 
     &::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: ${theme.gradients.bg};
+      background: ${(p) => p.theme.gradients.bg};
       pointer-events: none;
       z-index: -1;
+      transition: background 0.3s ease;
     }
   }
 
@@ -56,7 +57,7 @@ const GlobalStyles = createGlobalStyle`
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: rgba(124,58,237,0.4);
+    background: ${(p) => p.theme.colors.scrollThumb};
     border-radius: 9999px;
   }
 

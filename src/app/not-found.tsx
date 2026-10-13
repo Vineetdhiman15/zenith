@@ -1,7 +1,7 @@
-// src/app/not-found.tsx — 404 page with styled-components
+"use client";
+// src/app/not-found.tsx — 404 page, client component so ThemeProvider context is available
 import Link from "next/link";
 import styled from "styled-components";
-import { theme } from "@/styles/theme";
 import { PrimaryButton } from "@/styles/shared";
 
 const Wrapper = styled.div`
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 const Code = styled.div`
   font-size: 6rem;
   font-weight: 800;
-  background: ${theme.gradients.text};
+  background: ${(p) => p.theme.gradients.text};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -28,12 +28,12 @@ const Code = styled.div`
 const Title = styled.h1`
   font-size: 1.75rem;
   font-weight: 700;
-  color: white;
+  color: ${(p) => p.theme.colors.text};
   margin-bottom: 0.75rem;
 `;
 
 const Subtitle = styled.p`
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   margin-bottom: 2rem;
   max-width: 28rem;
 `;

@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styled from "styled-components";
 import { useAuth } from "@/context/AuthContext";
-import { theme } from "@/styles/theme";
 import {
   PageWrapper, GlassPanel, PrimaryButton, GhostButton,
   InputField, SelectField, TextAreaField, FormLabel, FormGroup,
@@ -37,11 +36,11 @@ const FormGrid = styled.div`
   display: grid;
   gap: 1.25rem;
 
-  @media (min-width: ${theme.breakpoints.md}) { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) { grid-template-columns: repeat(2, 1fr); }
 `;
 
 const FullWidth = styled.div`
-  @media (min-width: ${theme.breakpoints.md}) { grid-column: 1 / -1; }
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) { grid-column: 1 / -1; }
 `;
 
 const CheckboxRow = styled.label`
@@ -49,14 +48,14 @@ const CheckboxRow = styled.label`
   align-items: center;
   gap: 0.75rem;
   cursor: pointer;
-  color: ${theme.colors.mutedLight};
+  color: ${(p) => p.theme.colors.mutedLight};
   font-size: 0.875rem;
   font-weight: 500;
 
   input[type="checkbox"] {
     width: 1.125rem;
     height: 1.125rem;
-    accent-color: ${theme.colors.primary};
+    accent-color: ${(p) => p.theme.colors.primary};
     cursor: pointer;
   }
 `;

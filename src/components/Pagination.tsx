@@ -1,8 +1,7 @@
 "use client";
-// src/components/Pagination.tsx — fully styled-components
+// src/components/Pagination.tsx — fully theme-aware styled-components
 
 import styled, { css } from "styled-components";
-import { theme } from "@/styles/theme";
 
 interface PaginationProps {
   page: number;
@@ -24,16 +23,16 @@ const NavBtn = styled.button<{ $disabled?: boolean }>`
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  border: none;
+  border: 1px solid ${(p) => p.theme.colors.border};
   cursor: ${(p) => (p.$disabled ? "not-allowed" : "pointer")};
   opacity: ${(p) => (p.$disabled ? 0.3 : 1)};
-  background: rgba(255, 255, 255, 0.05);
-  color: ${theme.colors.mutedLight};
-  transition: all ${theme.transitions.fast};
+  background: ${(p) => p.theme.colors.ghostBg};
+  color: ${(p) => p.theme.colors.mutedLight};
+  transition: all ${(p) => p.theme.transitions.fast};
 
   &:hover:not([disabled]) {
-    background: rgba(255, 255, 255, 0.10);
-    color: white;
+    background: ${(p) => p.theme.colors.ghostHoverBg};
+    color: ${(p) => p.theme.colors.text};
   }
 `;
 
@@ -48,21 +47,22 @@ const PageBtn = styled.button<{ $active: boolean }>`
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  border: none;
   cursor: pointer;
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
 
   ${(p) =>
     p.$active
       ? css`
-          background: ${theme.colors.primary};
+          background: ${p.theme.colors.primary};
           color: white;
-          box-shadow: ${theme.shadows.glow};
+          border: none;
+          box-shadow: ${p.theme.shadows.glow};
         `
       : css`
-          background: rgba(255, 255, 255, 0.05);
-          color: ${theme.colors.mutedLight};
-          &:hover { background: rgba(255,255,255,0.10); color: white; }
+          background: ${p.theme.colors.ghostBg};
+          color: ${p.theme.colors.mutedLight};
+          border: 1px solid ${p.theme.colors.border};
+          &:hover { background: ${p.theme.colors.ghostHoverBg}; color: ${p.theme.colors.text}; }
         `}
 `;
 

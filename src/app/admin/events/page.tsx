@@ -8,7 +8,6 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import { theme } from "@/styles/theme";
 import {
   PageWrapper, PageHeader, PageTitle,
   GlassPanel, PrimaryButton, GhostButton,
@@ -46,11 +45,11 @@ const ToggleBtn = styled.button<{ $active: boolean }>`
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.3rem 0.75rem;
-  border-radius: ${theme.radii.full};
+  border-radius: ${(p) => p.theme.radii.full};
   border: 1px solid;
   cursor: pointer;
-  font-family: ${theme.fonts.body};
-  transition: all ${theme.transitions.fast};
+  font-family: ${(p) => p.theme.fonts.body};
+  transition: all ${(p) => p.theme.transitions.fast};
   background: none;
 
   ${(p) =>
@@ -66,16 +65,16 @@ const EditLink = styled(Link)`
   color: #a78bfa;
   text-decoration: none;
   padding: 0.3rem 0.75rem;
-  border-radius: ${theme.radii.md};
+  border-radius: ${(p) => p.theme.radii.md};
   border: 1px solid rgba(167,139,250,0.3);
-  transition: all ${theme.transitions.fast};
+  transition: all ${(p) => p.theme.transitions.fast};
 
   &:hover { background: rgba(167,139,250,0.1); color: white; }
 `;
 
 const CountBadge = styled.span`
   font-size: 0.8rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   font-weight: 400;
 `;
 
@@ -83,7 +82,7 @@ const EmptyRow = styled.tr`
   td {
     text-align: center;
     padding: 3rem 1rem;
-    color: ${theme.colors.muted};
+    color: ${(p) => p.theme.colors.muted};
     font-size: 0.9rem;
   }
 `;
@@ -190,7 +189,7 @@ export default function AdminEventsPage() {
             )}
             {events.map((event) => (
               <AdminTr key={event.id}>
-                <AdminTd style={{ color: theme.colors.muted, fontSize: "0.75rem" }}>
+                <AdminTd style={{ color: "#6b7280", fontSize: "0.75rem" }}>
                   {event.id}
                 </AdminTd>
                 <AdminTd>

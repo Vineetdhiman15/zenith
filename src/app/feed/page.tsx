@@ -7,7 +7,6 @@ import styled, { keyframes } from "styled-components";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import EventCard, { Event } from "@/components/EventCard";
-import { theme } from "@/styles/theme";
 import {
   PageHeader, PageTitle, PageWrapper,
   GlassPanel, Skeleton, EventGrid,
@@ -36,7 +35,7 @@ const CatChips = styled.div`
 
 const CatChip = styled.span`
   padding: 0.3rem 0.875rem;
-  border-radius: ${theme.radii.full};
+  border-radius: ${(p) => p.theme.radii.full};
   background: rgba(124, 58, 237, 0.18);
   color: #c4b5fd;
   font-size: 0.875rem;
@@ -56,15 +55,15 @@ const EmptyTitle = styled.h3`
 `;
 
 const EmptyText = styled.p`
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   margin-bottom: 1.5rem;
   max-width: 28rem;
 `;
 
 const SkeletonCard = styled.div`
-  background: ${theme.colors.surface};
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radii.lg};
+  background: ${(p) => p.theme.colors.surface};
+  border: 1px solid ${(p) => p.theme.colors.border};
+  border-radius: ${(p) => p.theme.radii.lg};
   overflow: hidden;
 `;
 

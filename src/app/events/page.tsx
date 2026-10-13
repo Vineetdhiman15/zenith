@@ -8,7 +8,6 @@ import EventCard, { Event } from "@/components/EventCard";
 import FilterBar from "@/components/FilterBar";
 import Pagination from "@/components/Pagination";
 import { useAuth } from "@/context/AuthContext";
-import { theme } from "@/styles/theme";
 import {
   PageHeader, PageTitle, PageWrapper,
   GlassPanel, Skeleton, EventGrid,
@@ -27,7 +26,7 @@ const AnimatedCard = styled.div<{ $delay: number }>`
 `;
 
 const Subtitle = styled.p`
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   font-size: 0.9375rem;
   margin-top: 0.5rem;
 `;
@@ -50,14 +49,14 @@ const EmptyTitle = styled.h3`
 `;
 
 const EmptyText = styled.p`
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
   margin-bottom: 1.5rem;
 `;
 
 const SkeletonCard = styled.div`
-  background: ${theme.colors.surface};
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radii.lg};
+  background: ${(p) => p.theme.colors.surface};
+  border: 1px solid ${(p) => p.theme.colors.border};
+  border-radius: ${(p) => p.theme.radii.lg};
   overflow: hidden;
 `;
 

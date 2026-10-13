@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styled, { css } from "styled-components";
 import { useAuth } from "@/context/AuthContext";
-import { theme } from "@/styles/theme";
 import {
   PageWrapper, GlassPanel, PrimaryButton,
   SuccessBox, ErrorBox,
@@ -38,7 +37,7 @@ const Heading = styled.div`
   margin-bottom: 2rem;
 
   h1 { font-size: 1.5rem; font-weight: 700; color: white; margin-bottom: 0.25rem; }
-  p  { font-size: 0.875rem; color: ${theme.colors.muted}; }
+  p  { font-size: 0.875rem; color: ${(p) => p.theme.colors.muted}; }
 `;
 
 const CatGrid = styled.div`
@@ -53,27 +52,27 @@ const CatBtn = styled.button<{ $selected: boolean }>`
   align-items: center;
   gap: 0.75rem;
   padding: 0.875rem 1rem;
-  border-radius: ${theme.radii.lg};
+  border-radius: ${(p) => p.theme.radii.lg};
   font-size: 0.9375rem;
   font-weight: 500;
-  font-family: ${theme.fonts.body};
+  font-family: ${(p) => p.theme.fonts.body};
   cursor: pointer;
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
   border: 2px solid;
 
   ${(p) =>
     p.$selected
       ? css`
-          border-color: ${theme.colors.primary};
+          border-color: ${(p) => p.theme.colors.primary};
           background: rgba(124, 58, 237, 0.2);
           color: white;
-          box-shadow: ${theme.shadows.glow};
+          box-shadow: ${(p) => p.theme.shadows.glow};
           transform: scale(1.02);
         `
       : css`
-          border-color: ${theme.colors.border};
+          border-color: ${(p) => p.theme.colors.border};
           background: rgba(255, 255, 255, 0.04);
-          color: ${theme.colors.mutedLight};
+          color: ${(p) => p.theme.colors.mutedLight};
           &:hover { border-color: rgba(255,255,255,0.2); color: white; }
         `}
 `;

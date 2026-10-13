@@ -1,12 +1,11 @@
 "use client";
-// src/components/EventCard.tsx — fully styled-components
+// src/components/EventCard.tsx — fully theme-aware styled-components
 
 import Link from "next/link";
 import styled, { css, keyframes } from "styled-components";
 import { useState, useEffect, useOptimistic, startTransition } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { formatFriendlyDate, formatIndianCurrency } from "@/lib/format";
-import { theme } from "@/styles/theme";
 
 export interface Event {
   id: number;
@@ -29,11 +28,11 @@ const CATEGORY_BG: Record<string, string> = {
   Kids:     "rgba(236,72,153,0.18)",
 };
 const CATEGORY_COLOR: Record<string, string> = {
-  Music:    "#c4b5fd",
-  Workshop: "#fcd34d",
-  Food:     "#fdba74",
-  Sports:   "#86efac",
-  Kids:     "#f9a8d4",
+  Music:    "#a78bfa",
+  Workshop: "#fbbf24",
+  Food:     "#fb923c",
+  Sports:   "#4ade80",
+  Kids:     "#f472b6",
 };
 const CATEGORY_BORDER: Record<string, string> = {
   Music:    "rgba(124,58,237,0.35)",
@@ -54,18 +53,22 @@ const fadeInDown = keyframes`
 
 // ─── Styled components ────────────────────────────────────────────────────────
 const Card = styled.article`
-  background: ${theme.colors.surface};
-  border: 1px solid ${theme.colors.border};
-  border-radius: ${theme.radii.lg};
+  background: ${(p) => p.theme.colors.surface};
+  border: 1px solid ${(p) => p.theme.colors.border};
+  border-radius: ${(p) => p.theme.radii.lg};
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  transition: transform ${theme.transitions.normal}, box-shadow ${theme.transitions.normal}, border-color ${theme.transitions.normal};
+  transition:
+    transform ${(p) => p.theme.transitions.normal},
+    box-shadow ${(p) => p.theme.transitions.normal},
+    border-color ${(p) => p.theme.transitions.normal},
+    background-color 0.3s ease;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: ${theme.shadows.card};
+    box-shadow: ${(p) => p.theme.shadows.card};
     border-color: rgba(124, 58, 237, 0.4);
   }
 `;
@@ -74,7 +77,10 @@ const ImageWrapper = styled.div`
   position: relative;
   height: 11rem;
   overflow: hidden;
-  background: linear-gradient(135deg, #2d1b69, #1e1b4b);
+  background: ${(p) =>
+    (p.theme.mode as string) === "dark"
+      ? "linear-gradient(135deg, #2d1b69, #1e1b4b)"
+      : "linear-gradient(135deg, #ede9fe, #ddd6fe)"};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -84,7 +90,7 @@ const CardImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform ${theme.transitions.slow};
+  transition: transform ${(p) => p.theme.transitions.slow};
 
   ${Card}:hover & {
     transform: scale(1.08);
@@ -94,7 +100,10 @@ const CardImage = styled.img`
 const ImageOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(10,10,20,0.9) 0%, transparent 60%);
+  background: ${(p) =>
+    (p.theme.mode as string) === "dark"
+      ? "linear-gradient(to top, rgba(10,10,20,0.9) 0%, transparent 60%)"
+      : "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)"};
 `;
 
 const CategoryBadge = styled.span<{ $cat: string }>`
@@ -104,7 +113,7 @@ const CategoryBadge = styled.span<{ $cat: string }>`
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.25rem 0.6rem;
-  border-radius: ${theme.radii.full};
+  border-radius: ${(p) => p.theme.radii.full};
   backdrop-filter: blur(8px);
   border: 1px solid;
   background: ${(p) => CATEGORY_BG[p.$cat] ?? "rgba(100,116,139,0.2)"};
@@ -119,9 +128,9 @@ const PriceBadge = styled.span`
   font-size: 0.7rem;
   font-weight: 700;
   padding: 0.25rem 0.6rem;
-  border-radius: ${theme.radii.full};
+  border-radius: ${(p) => p.theme.radii.full};
   backdrop-filter: blur(8px);
-  background: rgba(10, 10, 20, 0.75);
+  background: rgba(0, 0, 0, 0.65);
   color: white;
 `;
 
@@ -140,7 +149,7 @@ const Body = styled.div`
 const Title = styled.h3`
   font-size: 0.9375rem;
   font-weight: 700;
-  color: white;
+  color: ${(p) => p.theme.colors.text};
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -159,14 +168,14 @@ const MetaItem = styled.span`
   align-items: center;
   gap: 0.375rem;
   font-size: 0.75rem;
-  color: ${theme.colors.muted};
+  color: ${(p) => p.theme.colors.muted};
 
   svg { color: #8b5cf6; flex-shrink: 0; }
 `;
 
 const Description = styled.p`
   font-size: 0.75rem;
-  color: #475569;
+  color: ${(p) => p.theme.colors.muted};
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -189,13 +198,13 @@ const ActionLink = styled(Link)`
   border-radius: 0.5rem;
   font-size: 0.75rem;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.05);
-  color: ${theme.colors.mutedLight};
-  border: 1px solid ${theme.colors.border};
+  background: ${(p) => p.theme.colors.ghostBg};
+  color: ${(p) => p.theme.colors.mutedLight};
+  border: 1px solid ${(p) => p.theme.colors.border};
   text-decoration: none;
-  transition: all ${theme.transitions.fast};
+  transition: all ${(p) => p.theme.transitions.fast};
 
-  &:hover { background: rgba(255,255,255,0.10); color: white; }
+  &:hover { background: ${(p) => p.theme.colors.ghostHoverBg}; color: ${(p) => p.theme.colors.text}; }
 `;
 
 const ReminderBtn = styled.button<{ $active: boolean; $saving: boolean }>`
@@ -209,24 +218,25 @@ const ReminderBtn = styled.button<{ $active: boolean; $saving: boolean }>`
   border: none;
   cursor: ${(p) => (p.$saving ? "not-allowed" : "pointer")};
   opacity: ${(p) => (p.$saving ? 0.6 : 1)};
-  transition: all ${theme.transitions.normal};
+  transition: all ${(p) => p.theme.transitions.normal};
 
   ${(p) =>
     p.$active
       ? css`
-          background: ${theme.colors.primary};
+          background: ${p.theme.colors.primary};
           color: white;
-          box-shadow: ${theme.shadows.glow};
+          box-shadow: ${p.theme.shadows.glow};
         `
       : css`
-          background: rgba(255,255,255,0.05);
-          color: ${theme.colors.muted};
-          &:hover { background: rgba(255,255,255,0.10); color: white; }
+          background: ${p.theme.colors.ghostBg};
+          color: ${p.theme.colors.muted};
+          border: 1px solid ${p.theme.colors.border};
+          &:hover { background: ${p.theme.colors.ghostHoverBg}; color: ${p.theme.colors.text}; }
         `}
 `;
 
 const ReminderLabel = styled.span`
-  @media (max-width: ${theme.breakpoints.sm}) { display: none; }
+  @media (max-width: ${(p) => p.theme.breakpoints.sm}) { display: none; }
 `;
 
 const InlineToast = styled.div`
@@ -235,13 +245,13 @@ const InlineToast = styled.div`
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
-  background: rgba(15, 15, 30, 0.95);
-  color: white;
+  background: ${(p) => p.theme.colors.surface};
+  color: ${(p) => p.theme.colors.text};
   font-size: 0.7rem;
   padding: 0.375rem 0.75rem;
-  border-radius: ${theme.radii.full};
+  border-radius: ${(p) => p.theme.radii.full};
   white-space: nowrap;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   border: 1px solid rgba(124,58,237,0.3);
   animation: ${fadeInDown} 0.25s ease-out;
 `;
